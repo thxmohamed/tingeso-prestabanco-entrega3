@@ -6,8 +6,8 @@ spring:
     config:
       server:
         git:
-          default-label: local
-          uri: https://github.com/thxmohamed/tingeso-prestabanco-microservicios
+          default-label: main
+          uri: https://github.com/thxmohamed/tingeso-prestabanco-entrega3
           search-paths: config-data
 
   application:
