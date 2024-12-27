@@ -1,0 +1,21 @@
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/evaluation
+    username: root
+    password: mohamed123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
