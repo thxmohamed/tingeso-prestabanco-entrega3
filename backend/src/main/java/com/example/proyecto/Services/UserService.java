@@ -5,7 +5,6 @@ import com.example.proyecto.Entities.UserEntity;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -46,4 +45,5 @@ public class UserService {
             throw new IllegalArgumentException("Contraseña incorrecta.");
         }
     }
+
 }

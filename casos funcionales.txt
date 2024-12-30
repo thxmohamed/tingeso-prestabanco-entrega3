@@ -1,0 +1,144 @@
+HU1:
+
+Feature: Simulación de Crédito Exitosa
+
+Scenario: El usuario simula un crédito con datos válidos
+  Given el usuario está en la pantalla "Simula tu Crédito"
+  When ingresa una tasa de interés anual de "5", años de plazo de "5" y un monto solicitado de "10000"
+  And presiona el botón "Simular Crédito"
+  Then el sistema muestra "La cuota mensual a pagar es de $XXX.XX"
+  And muestra "La comisión de administración a pagar es de $XXX.XX"
+  And muestra "El costo total del préstamo será de $XXXX.XX"
+
+
+Feature: Validación de campos
+
+Scenario: El usuario intenta simular un crédito sin completar todos los campos
+  Given el usuario está en la pantalla "Simula tu Crédito"
+  When deja el campo "Monto Solicitado" vacío
+  And presiona el botón "Simular Crédito"
+  Then el sistema muestra un mensaje de error "Por favor, completa todos los campos requeridos"
+
+
+Feature: Validación de datos
+
+Scenario: El usuario intenta simular un crédito con una tasa de interés negativa
+  Given el usuario está en la pantalla "Simula tu Crédito"
+  When ingresa una tasa de interés anual de "-5" y completa los demás campos correctamente
+  And presiona el botón "Simular Crédito"
+  Then el sistema muestra un mensaje de error "La tasa de interés debe ser un valor positivo"
+
+
+Feature: Validación de datos
+
+Scenario: El usuario intenta simular un crédito con un monto solicitado menor a 1000
+  Given el usuario está en la pantalla "Simula tu Crédito"
+  When ingresa un monto solicitado de "500" y completa los demás campos correctamente
+  And presiona el botón "Simular Crédito"
+  Then el sistema muestra un mensaje de error "El monto solicitado debe ser mayor o igual a 1000"
+
+
+Feature: Navegación
+
+Scenario: El usuario regresa a la pantalla principal desde la simulación de crédito
+  Given el usuario está en la pantalla "Simula tu Crédito"
+  When presiona el botón "Atrás"
+  Then el sistema redirige al usuario a la pantalla principal "Home"
+
+
+
+
+
+
+
+
+___________________________________________________________________________________________
+
+
+Feature: Solicitud de Crédito (HU3)
+
+  Scenario: Validar el cálculo de la cuota mensual
+    Given el usuario selecciona "Primera Vivienda" como tipo de préstamo
+    And ingresa "100000" como monto solicitado
+    And ingresa "150000" como valor de la propiedad
+    And ingresa "15" como plazo en años
+    When presiona el botón "Adjuntar Archivos"
+    Then el sistema calcula y muestra la cuota mensual
+    And muestra la comisión administrativa correspondiente
+
+  Scenario: Validar restricción de monto financiable según el valor de la propiedad
+    Given el usuario selecciona "Segunda Vivienda" como tipo de préstamo
+    And ingresa "150000" como monto solicitado
+    And ingresa "100000" como valor de la propiedad
+    And ingresa "15" como plazo en años
+    When presiona el botón "Adjuntar Archivos"
+    Then el sistema muestra el mensaje "El monto máximo financiable para Segunda Vivienda es $70000.00"
+
+  Scenario: Validar restricción de plazo máximo según el tipo de préstamo
+    Given el usuario selecciona "Propiedades Comerciales" como tipo de préstamo
+    And ingresa "100000" como monto solicitado
+    And ingresa "150000" como valor de la propiedad
+    And ingresa "30" como plazo en años
+    When presiona el botón "Adjuntar Archivos"
+    Then el sistema muestra el mensaje "El plazo máximo para Propiedades Comerciales es de 25 años."
+
+  Scenario: Validar la subida exitosa de documentos requeridos
+    Given el usuario está en el formulario de subida de archivos
+    And selecciona los archivos "Comprobante de Ingresos", "Certificado de Avalúo" y "Historial Crediticio"
+    When presiona el botón "Subir Archivos"
+    Then el sistema confirma que los archivos se han subido correctamente
+    And redirige al usuario a la pantalla de inicio
+
+  Scenario: Validar advertencia cuando faltan documentos requeridos
+    Given el usuario está en el formulario de subida de archivos
+    And selecciona solo el archivo "Comprobante de Ingresos"
+    When presiona el botón "Subir Archivos"
+    Then el sistema muestra el mensaje "Debes subir el archivo: Certificado de Avalúo"
+    And no permite completar el proceso de subida
+
+
+
+
+
+
+
+
+
+______________________________________________________________________________
+
+HU4
+
+Feature: Evaluación de una Solicitud de Crédito
+
+  Scenario: Visualizar detalles de una solicitud de crédito
+    Given que el usuario tiene acceso al sistema de evaluación de créditos
+    And existen solicitudes de crédito en el sistema
+    When el usuario selecciona una solicitud de crédito en la lista
+    Then se deben mostrar los detalles de la solicitud seleccionada
+    And se deben listar los documentos asociados a la solicitud
+    And debe ser posible descargar cada documento.
+
+  Scenario: Filtrar solicitudes de crédito por estado
+    Given que el usuario está en la página de evaluación de solicitudes
+    And existen múltiples solicitudes con diferentes estados
+    When el usuario selecciona un estado en el filtro
+    Then la lista de solicitudes debe actualizarse para mostrar solo las que tienen el estado seleccionado.
+
+  Scenario: Cambiar el estado de una solicitud de crédito
+    Given que el usuario está visualizando los detalles de una solicitud
+    When el usuario selecciona un nuevo estado en el menú desplegable
+    And hace clic en el botón "Cambiar"
+    Then el sistema debe actualizar el estado de la solicitud seleccionada
+    And debe mostrar una notificación de éxito.
+
+  Scenario: Calcular la deuda actual del solicitante
+    Given que el usuario está en el formulario de evaluación
+    And el cliente tiene créditos previos en los estados "Aprobada" o "En desembolso"
+    When el sistema calcula la deuda actual basada en los créditos válidos
+    Then debe mostrar el monto total de deuda actual en el formulario.
+
+  Scenario: Redirigir al formulario de evaluación al cambiar el estado
+    Given que el usuario cambia el estado de una solicitud a "En evaluación"
+    When se guarda el nuevo estado en el sistema
+    Then el sistema debe redirigir automáticamente al formulario de evaluación correspondiente.
+

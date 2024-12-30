@@ -25,10 +25,18 @@ const Login = ({ onLogin }) => {
         navigate('/home');
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setError('Credenciales incorrectas');
+      if (error.response) {
+        // Verificar si el error es por una contraseña incorrecta (401) o email incorrecto (404)
+        if (error.response.status === 401) {
+          setError('Contraseña incorrecta.');
+        } else if (error.response.status === 404) {
+          setError('El correo electrónico no está registrado.');
+        } else {
+          setError('Hubo un error al iniciar sesión. Intenta nuevamente.');
+        }
       } else {
-        setError('Hubo un error al iniciar sesión. Intenta nuevamente.');
+        // En caso de error de red o problemas con la conexión al servidor
+        setError('No se pudo conectar con el servidor. Intenta nuevamente.');
       }
     }
   };

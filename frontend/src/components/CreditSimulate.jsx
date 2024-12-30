@@ -30,12 +30,32 @@ const CreditSimulate = () => {
     e.preventDefault();
     setError(''); // Limpiar error previo
 
+    // Validaciones específicas
+    if (form.interestRate < 0) {
+      setError('La tasa de interés debe ser un valor positivo.');
+      return;
+    }
+
+    if(form.interestRate == 0){
+      setError('La tasa de interés no puede ser 0.');
+      return;
+    }
+
+    if (form.yearsLimit < 1) {
+      setError('El plazo debe ser de al menos 1 año.');
+      return;
+    }
+
+    if (form.yearsLimit > 30) {
+      setError('El plazo no puede superar los 30 años.');
+      return;
+    }
+
     try {
       const response = await creditService.simulate(form);
-      setMonthlyPayment(response.data + 0.0003*response.data + 20);
+      setMonthlyPayment(response.data + 0.0003 * response.data + 20);
       setAdministrationCommission(form.requestedAmount * 0.01);
       setYearsLimit(form.yearsLimit);
-
     } catch (err) {
       setError('Hubo un error al simular el crédito. Inténtalo de nuevo.');
       console.error(err);
@@ -45,7 +65,7 @@ const CreditSimulate = () => {
   return (
     <div className="credit-simulate-container">
       <h1>Simula tu Crédito</h1>
-      
+
       <form onSubmit={handleSubmit}>
         <div>
           <label>Tasa de Interés Anual (%)</label>
@@ -85,19 +105,18 @@ const CreditSimulate = () => {
         </div>
 
         <button className='button'>Simular Crédito</button>
-        <button className='button' onClick={handleBack}>
-            Atrás
+        <button className='button' onClick={handleBack} type="button">
+          Atrás
         </button>
       </form>
 
       {error && <p className="error">{error}</p>}
-      
+
       {monthlyPayment !== null && (
         <div className="result">
           <h2>La cuota mensual a pagar es de ${monthlyPayment.toFixed(2)}</h2>
-          <h2>La comision de administración a pagar es de ${administrationCommission.toFixed(2)}</h2>
+          <h2>La comisión de administración a pagar es de ${administrationCommission.toFixed(2)}</h2>
           <h2>El costo total del préstamo será de ${(administrationCommission + (monthlyPayment * 12 * yearsLimit)).toFixed(2)}</h2>
-
         </div>
       )}
     </div>
