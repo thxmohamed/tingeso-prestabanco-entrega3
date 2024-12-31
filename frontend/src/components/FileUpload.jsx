@@ -160,7 +160,7 @@ const FileUpload = ({ creditID, loanType }) => {
         {error && <p className="error">{error}</p>}
         {success && <p className="success">{success}</p>}
 
-        <button type="submit" className="submit-btn" disabled={loading}>
+        <button type="submit" className="button" disabled={loading}>
           {loading ? 'Subiendo...' : 'Subir Archivos'}
         </button>
       </form>

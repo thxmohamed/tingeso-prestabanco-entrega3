@@ -52,7 +52,7 @@ const MyProfile = () => {
           <strong>Edad:</strong> {user.age}
         </div>
       </div>
-      <button className="go-back-button" onClick={handleBack}>
+      <button className="logout-button" onClick={handleBack}>
         Atrás
       </button>
     </div>

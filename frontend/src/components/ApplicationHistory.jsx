@@ -23,7 +23,7 @@ const ApplicationDetails = ({ credit, onCancel, onAccept }) => {
       
       {/* Botón de Aceptar si el estado es E4_PRE_APROBADA */}
       {credit.status === 'E4_PRE_APROBADA' && (
-        <button onClick={() => onAccept(credit.id)} className="btn-green">
+        <button onClick={() => onAccept(credit.id)} className="btn-blue">
           Aceptar
         </button>
       )}
@@ -115,7 +115,7 @@ const ApplicationHistory = () => {
 
   return (
     <div className="application-history-container">
-      <button className="go-back-button" onClick={goBack}>
+      <button className="logout-button" onClick={goBack}>
         Atrás
       </button>
 

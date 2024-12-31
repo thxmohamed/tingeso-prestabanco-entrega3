@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { useNavigate } from 'react-router-dom';
 import userService from '../services/user.service';
 import "../App.css";
 
@@ -10,21 +10,22 @@ function Register() {
     email: '',
     password: '',
     rut: '',
-    edad: 18, 
+    edad: 18,
     salario: ''
   });
 
   const [errors, setErrors] = useState({
+    nombre: '',
+    apellido: '',
+    email: '',
     rut: '',
     salario: ''
   });
 
-  const navigate = useNavigate(); // Inicializamos useNavigate
-
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-    // Formatear el RUT automáticamente
   const formatRut = (value) => {
     const cleanValue = value.replace(/[^\dkK]/g, ''); // Solo números y K/k
     const rut = cleanValue.slice(0, -1);
@@ -54,10 +55,22 @@ function Register() {
     return rutRegex.test(rut);
   };
 
-  // Validar salario solo números
+  // Validar nombre y apellido (no números y mínimo 2 caracteres)
+  const validateName = (name) => {
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,}$/;
+    return nameRegex.test(name);
+  };
+
+  // Validar email
+  const validateEmail = (email) => {
+    const emailRegex = /^[^@\s]+@[^@\s]+\.(com|net|cl|es|org|edu)$/;
+    return emailRegex.test(email);
+  };
+
+  // Validar salario (números y máximo 15 millones)
   const validateSalario = (salario) => {
-    const salarioRegex = /^[0-9]+$/; // Solo acepta números
-    return salarioRegex.test(salario);
+    const salarioNumber = Number(salario);
+    return salarioNumber > 350000 && salarioNumber <= 15000000;
   };
 
   // Manejar cambios en los campos
@@ -65,11 +78,23 @@ function Register() {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
 
-    if (name === 'salario' && isNaN(value)) {
-      setErrors({ ...errors, salario: 'El salario debe ser un número' });
-    } else {
-      setErrors({ ...errors, salario: '' });
+    // Validaciones específicas
+    let error = '';
+    if (name === 'nombre' || name === 'apellido') {
+      if (!validateName(value)) {
+        error = 'Debe tener al menos 2 letras y no contener números.';
+      }
+    } else if (name === 'email') {
+      if (!validateEmail(value)) {
+        error = 'Ingrese un correo válido siguiendo el ejemplo guest@example.com';
+      }
+    } else if (name === 'salario') {
+      if (!validateSalario(value)) {
+        error = 'El salario está fuera del rango entre 350.000 y 15.000.000.';
+      }
     }
+
+    setErrors({ ...errors, [name]: error });
   };
 
   const handleConfirm = async () => {
@@ -88,7 +113,7 @@ function Register() {
     try {
       await userService.register(customerData);
       alert('¡Registro exitoso!');
-      navigate('/login'); // Redirigir al login
+      navigate('/login');
     } catch (error) {
       alert('Error: ' + error.response?.data || error.message);
     } finally {
@@ -98,17 +123,22 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowConfirmation(true); // Mostrar la pantalla de confirmación
+    // Verificar que no haya errores antes de mostrar confirmación
+    if (Object.values(errors).every((error) => error === '') &&
+        Object.values(form).every((field) => field !== '')) {
+      setShowConfirmation(true);
+    } else {
+      alert('Por favor, corrija los errores antes de continuar.');
+    }
   };
 
-  // Función para volver al login
   const goToLogin = () => {
-    navigate('/login'); // Redirigir a la página de login
+    navigate('/login');
   };
 
   return (
-      <div style={styles.registerContainer}>
-      {showConfirmation && (
+    <div style={styles.registerContainer}>
+      {showConfirmation ? (
         <>
           <div className="confirmationOverlay"></div>
           <div className="confirmationContainer">
@@ -127,8 +157,6 @@ function Register() {
             </button>
           </div>
         </>
-      )}
-      
       ) : (
         <>
           <h2 style={styles.heading}>Registro de Usuario</h2>
@@ -143,8 +171,9 @@ function Register() {
                 required
                 style={styles.input}
               />
+              {errors.nombre && <p style={styles.error}>{errors.nombre}</p>}
             </div>
-  
+
             <div style={styles.formGroup}>
               <label>Apellido:</label>
               <input
@@ -155,8 +184,9 @@ function Register() {
                 required
                 style={styles.input}
               />
+              {errors.apellido && <p style={styles.error}>{errors.apellido}</p>}
             </div>
-  
+
             <div style={styles.formGroup}>
               <label>Email:</label>
               <input
@@ -167,8 +197,9 @@ function Register() {
                 required
                 style={styles.input}
               />
+              {errors.email && <p style={styles.error}>{errors.email}</p>}
             </div>
-  
+
             <div style={styles.formGroup}>
               <label>Contraseña:</label>
               <input
@@ -180,7 +211,7 @@ function Register() {
                 style={styles.input}
               />
             </div>
-  
+
             <div style={styles.formGroup}>
               <label>RUT:</label>
               <input
@@ -193,7 +224,7 @@ function Register() {
               />
               {errors.rut && <p style={styles.error}>{errors.rut}</p>}
             </div>
-  
+
             <div style={styles.formGroup}>
               <label>Edad:</label>
               <select
@@ -213,7 +244,7 @@ function Register() {
                 })}
               </select>
             </div>
-  
+
             <div style={styles.formGroup}>
               <label>Salario:</label>
               <input
@@ -226,20 +257,20 @@ function Register() {
               />
               {errors.salario && <p style={styles.error}>{errors.salario}</p>}
             </div>
-  
+
             <button type="submit" style={styles.submitButton}>
               Registrarse
             </button>
           </form>
-  
-          <button onClick={goToLogin} style={styles.loginButton}>
-            Volver al Login
+
+          <button className='logout-button' onClick={goToLogin}>
+            Volver
           </button>
         </>
-      )
+      )}
     </div>
   );
-}  
+}
 
 const styles = {
   registerContainer: {
@@ -248,7 +279,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#a6ccfe',
     padding: '20px',
   },
   heading: {
@@ -266,21 +297,12 @@ const styles = {
   },
   submitButton: {
     padding: '10px 20px',
-    backgroundColor: '#007bff',
+    backgroundColor: '#2c13cc',
     color: '#fff',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
     marginTop: '10px',
-  },
-  loginButton: {
-    padding: '10px 20px',
-    backgroundColor: '#6c757d',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginTop: '20px',
   },
   error: {
     color: 'red',

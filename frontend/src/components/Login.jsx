@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userService from '../services/user.service';
 import Button from "@mui/material/Button";
+import "../App.css";
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -27,10 +28,8 @@ const Login = ({ onLogin }) => {
     } catch (error) {
       if (error.response) {
         // Verificar si el error es por una contraseña incorrecta (401) o email incorrecto (404)
-        if (error.response.status === 401) {
-          setError('Contraseña incorrecta.');
-        } else if (error.response.status === 404) {
-          setError('El correo electrónico no está registrado.');
+        if (error.response.status === 500) {
+          setError('Credenciales incorrectas.');
         } else {
           setError('Hubo un error al iniciar sesión. Intenta nuevamente.');
         }
@@ -42,17 +41,17 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div style={styles.loginContainer}>
+    <div className="login-container">
       <h1>Iniciar Sesión</h1>
-      {error && <p style={styles.errorMessage}>{error}</p>}
-      <form onSubmit={handleSubmit} style={styles.form}>
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleSubmit} className="form">
         <input
           type="email"
           placeholder="Correo electrónico"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={styles.input}
+          className="input"
         />
         <input
           type="password"
@@ -60,55 +59,24 @@ const Login = ({ onLogin }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={styles.input}
+          className="input"
         />
         <Button
           variant="contained"
           color="primary"
           type="submit"
-          style={styles.button}
+          className="button"
         >
           Iniciar Sesión
         </Button>
 
-        <button style={styles.button} onClick={goToRegister}>
+        <button className="logout-button" onClick={goToRegister}>
           Registrarse
         </button>
 
       </form>
     </div>
   );
-};
-
-// Definir los estilos en línea
-const styles = {
-  loginContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    backgroundColor: '#f5f5f5',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '300px',
-  },
-  input: {
-    padding: '10px',
-    margin: '10px 0',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-  },
-  button: {
-    marginTop: '20px',
-    padding: '10px',
-  },
-  errorMessage: {
-    color: 'red',
-    fontSize: '14px',
-  },
 };
 
 export default Login;

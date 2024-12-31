@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #a6ccfe;
   padding: 20px;
 }
 
@@ -83,34 +83,34 @@
 }
 
 .logout-button {
-  background-color: #f44336;
-  color: white;
-  padding: 10px 20px;
-  border: none;
+  background-color: #f4433600;
+  color: rgb(5, 5, 5);
+  padding: 10px 2 0px;
+  border: solid 1px #000000;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 10px;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
 .logout-button:hover {
-  background-color: #d32f2f;
+  background-color: #342fd399;
 }
 
 .credit-simulate-container {
   width: 400px;
   margin: 0 auto;
   padding: 50px;
-  border: 3px solid #ccc;
+  border: 3px solid #342fd399;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: #a6ccfe;
   text-align: center;
 }
 
 .credit-simulate-container h1 {
-  font-size: 24px;
+  font-size: 38px;
   margin-bottom: 20px;
 }
 
@@ -123,34 +123,20 @@
 .credit-simulate-container input {
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 5px;
 }
 
 .input-field {
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #000000;
+  border-radius: 30px;
   font-size: 16px;
 }
 
 .input-field:focus {
   border-color: #007bff;
   outline: none;
-}
-
-.credit-simulate-container button {
-  padding: 10px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.credit-simulate-container button:hover {
-  background-color: #0056b3;
 }
 
 .credit-simulate-container .result {
@@ -171,7 +157,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #a6ccfe;
   padding: 20px;
 }
 
@@ -186,7 +172,7 @@ h1 {
   flex-direction: column;
   width: 100%;
   max-width: 400px;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -236,7 +222,7 @@ label {
 .applications-list li {
   padding: 10px;
   margin: 10px 0;
-  background-color: #61dafbaa;
+  background-color: #a6ccfe;
   border: 1px solid #000000;
   cursor: pointer;
 }
@@ -251,7 +237,7 @@ label {
 }
 
 .applications-list li:hover {
-  background-color: #24a9b8aa;
+  background-color: #79edfaaa;
 }
 
 .application-details {
@@ -266,20 +252,6 @@ label {
 
 .clickable {
   cursor: pointer;
-}
-
-.go-back-button {
-  margin-bottom: 20px; /* Espacio debajo del botón */
-  padding: 10px 15px; /* Espaciado interno */
-  background-color: #1aaf00; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados */
-  cursor: pointer; /* Cambiar el cursor al pasar el ratón */
-}
-
-.go-back-button:hover {
-  background-color: #78e741; /* Color de fondo al pasar el ratón */
 }
 
 /* Estilos generales para el contenedor de evaluación de solicitudes */
@@ -345,21 +317,7 @@ label {
 
 .documents-section li {
   margin-bottom: 10px; /* Margen abajo de cada documento */
-  display: flex; /* Para alinear el texto y el botón */
   justify-content: space-between; /* Espacio entre elementos */
-}
-
-.documents-section button {
-  background-color: #28a745; /* Color de fondo del botón de descarga */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 4px; /* Bordes redondeados */
-  padding: 5px 10px; /* Espaciado interno */
-  cursor: pointer; /* Cambiar cursor al pasar el ratón */
-}
-
-.documents-section button:hover {
-  background-color: #218838; /* Color de fondo al pasar el ratón */
 }
 
 /* Estilos para el filtro de estado */
@@ -397,13 +355,13 @@ label {
   align-items: center; /* Alinear verticalmente */
   margin: 15px 0; /* Margen arriba y abajo */
   padding: 10px; /* Espaciado interno */
-  background-color: #f4fac2; /* Color de fondo de la regla */
+  background-color: #a6ccfe; /* Color de fondo de la regla */
   border-radius: 5px; /* Bordes redondeados */
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
 
 /* Botones */
-.btn-green, .btn-red {
+.btn-blue, .btn-red {
   width: 100px; /* Ancho fijo para los botones */
   padding: 8px; /* Espaciado interno */
   border-radius: 5px; /* Bordes redondeados */
@@ -412,8 +370,8 @@ label {
   transition: background-color 0.3s; /* Transición suave */
 }
 
-.btn-green {
-  background-color: #28a745; /* Color de fondo verde */
+.btn-blue {
+  background-color: #2c13cc; /* Color de fondo verde */
   color: white; /* Color del texto */
 }
 
@@ -442,21 +400,33 @@ label {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
-  background-color: #f6f5c9;
+  height: 90vh;
+  background-color: #a6ccfe;
 }
 
 .heading {
   color: #333;
-  font-size: 28px;
+  font-size: 58px;
   margin-bottom: 30px;
+}
+
+.button-home {
+  padding: 15px 18px;
+  margin: 20px;
+  font-size: 26px;
+  background-color: #2c13cc;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .button {
   padding: 15px 25px;
   margin: 10px;
   font-size: 16px;
-  background-color: #a1cc13;
+  background-color: #2c13cc;
   color: white;
   border: none;
   border-radius: 5px;
@@ -465,7 +435,7 @@ label {
 }
 
 .button:hover {
-  background-color: hsl(102, 72%, 74%);
+  background-color: hsl(236, 88%, 59%);
 }
 
 .checkbox-container {
@@ -488,13 +458,13 @@ label {
   left: 0;
   height: 20px;
   width: 20px;
-  background-color: #ccc;
+  background-color: #cccccc;
   border: 1px solid #999;
   border-radius: 3px;
 }
 
 .checkbox-container input:checked ~ .checkmark {
-  background-color: #4caf50; /* Verde para marcado */
+  background-color: #0008a2; /* Verde para marcado */
 }
 
 .checkbox-container input:checked ~ .checkmark:after {
@@ -551,14 +521,20 @@ label {
 
 .btn-calculate-success {
   background-color: #01ff3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .btn-calculate:hover {
-  background-color: #0056b3;
+  background-color: #3d8fe7;
 }
 
 .btn-calculate-success:hover {
-  background-color: #b6f3c2;
+  background-color: #52fa73;
 }
 
 
@@ -662,3 +638,39 @@ label {
   z-index: 999;
 }
 
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #a6ccfe;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.input {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #000000bc;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #a6ccfe;
+  padding: 20px;
+}

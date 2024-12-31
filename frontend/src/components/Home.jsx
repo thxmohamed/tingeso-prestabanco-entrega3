@@ -30,17 +30,17 @@ const Home = () => {
     <div className="home-container">
       <h1 className="heading">Hola, bienvenidos a Préstamos PrestaBanco</h1>
       
-      <button className="button" onClick={goToSimulate}>
-        Simular un crédito
-      </button>
-      <button className="button" onClick={goToApplication}>
-        Solicitar un crédito
-      </button>
-      <button className="button" onClick={goToProfile}>
+      <button className="button-home" onClick={goToProfile}>
         Mi perfil
       </button>
-      <button className="button" onClick={goToEvaluation}>
-        Evaluar solicitudes (ejecutivo)
+      <button className="button-home" onClick={goToSimulate}>
+        Simular un crédito
+      </button>
+      <button className="button-home" onClick={goToApplication}>
+        Solicitar un crédito
+      </button>
+      <button className="button-home" onClick={goToEvaluation}>
+        Evaluar solicitudes
       </button>
       <button className="logout-button" onClick={handleLogout}>
         Cerrar sesión

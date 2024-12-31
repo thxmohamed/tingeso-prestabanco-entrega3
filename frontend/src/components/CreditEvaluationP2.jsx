@@ -189,7 +189,7 @@ const CreditEvaluationP2 = () => {
     <div className="credit-evaluation-container">
       <h2>Evaluación de Crédito</h2>
 
-      <button className="go-back-button" onClick={() => navigate(-1)}>
+      <button className="logout-button" onClick={() => navigate(-1)}>
         Atrás
       </button>
 
@@ -246,7 +246,7 @@ const CreditEvaluationP2 = () => {
                   onClick={onClick}
                   disabled={calculatedChecks[calculatedKey]}
                 >
-                  Calcular
+                  {calculatedChecks[calculatedKey] ? "Correcto" : "Calcular"}
                 </button>
                 <label className="checkbox-container">
                   <input
@@ -261,7 +261,7 @@ const CreditEvaluationP2 = () => {
           ))}
         </div>
 
-        <button onClick={handleEvaluation} className="btn-submit">Enviar Evaluación</button>
+        <button onClick={handleEvaluation} className="button">Enviar Evaluación</button>
       </div>
     </div>
   );

@@ -22,6 +22,10 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public UserEntity getByRut(String rut) {
+        return userRepository.findByRut(rut);
+    }
+
     public UserEntity registerUser(UserEntity user) {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new IllegalArgumentException("El email ya está registrado.");
@@ -39,7 +43,7 @@ public class UserService {
         if (userDB == null) {
             throw new NoSuchElementException("El email no está registrado.");
         }
-        if (userDB.getPassword().equals(user.getPassword())) {
+        else if(userDB.getPassword().equals(user.getPassword())) {
             return userDB;
         } else {
             throw new IllegalArgumentException("Contraseña incorrecta.");

@@ -180,11 +180,11 @@ const CreditApplication = () => {
 
           {error && <p className="error">{error}</p>}
 
-          <button type="submit" className="submit-btn" disabled={loading}>
+          <button type="submit" className="button" disabled={loading}>
             {loading ? 'Procesando...' : 'Adjuntar Archivos'}
           </button>
 
-          <button className="go-back-button" onClick={() => navigate('/home')}>
+          <button className="logout-button" onClick={() => navigate('/home')}>
             Atrás
           </button>
 

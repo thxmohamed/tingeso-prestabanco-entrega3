@@ -76,9 +76,7 @@ const ApplicationDetails = ({ credit, statusOptions, onStatusChange }) => {
           <ul>
             {documents.map((doc) => (
               <li key={doc.id}>
-                <p>{doc.filename}</p>
-                {/* Descargar el archivo al hacer clic */}
-                <button onClick={() => handleDownload(doc.id, doc.filename)}>Descargar</button>
+                <button className='button' onClick={() => handleDownload(doc.id, doc.filename)}>{doc.filename}</button>
               </li>
             ))}
           </ul>

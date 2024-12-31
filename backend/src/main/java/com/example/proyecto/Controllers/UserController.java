@@ -33,7 +33,13 @@ public class UserController {
         try {
             UserEntity userDB = userService.getByEmail(user.getEmail());
             if(userDB != null){
-                return ResponseEntity.badRequest().body("Email already exists");
+                return ResponseEntity.badRequest().body("El email " + user.getEmail() + " ya se encuentra registrado");
+            }
+
+            UserEntity userDB2 = userService.getByRut(user.getRut());
+
+            if(userDB2 != null){
+                return ResponseEntity.badRequest().body("El usuario con rut " + user.getRut() + " ya se encuentra registrado");
             }
             UserEntity createdUser = userService.registerUser(user);
             return ResponseEntity.ok().body("user successfully registered");
@@ -48,7 +54,7 @@ public class UserController {
         if (customerDB != null) {
             return ResponseEntity.ok(customerDB);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
         }
     }
 
