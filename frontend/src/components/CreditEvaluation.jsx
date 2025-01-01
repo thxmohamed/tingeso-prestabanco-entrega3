@@ -102,7 +102,7 @@ const CreditEvaluation = () => {
   const statusOptions = [
     { label: 'En revisión inicial', value: 'E1_EN_REVISION_INICIAL' },
     { label: 'Pendiente documentación', value: 'E2_PENDIENTE_DOCUMENTACION' },
-    { label: 'En evaluación', value: 'E3_EN_EVALUACION' },
+    { label: 'Evaluar solicitud', value: 'E3_EN_EVALUACION' },
     { label: 'Pre-aprobada', value: 'E4_PRE_APROBADA' },
     { label: 'En aprobación final', value: 'E5_EN_APROBACION_FINAL' },
     { label: 'Aprobada', value: 'E6_APROBADA' },
