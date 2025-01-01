@@ -24,25 +24,25 @@ const CreditApplication = () => {
   const loanTypesMap = {
     "Primera Vivienda": {
       loanType: "PRIMERA_VIVIENDA",
-      interestRate: Math.floor(100 * (Math.random() * (5 - 3.5) + 3.5)) / 100,
+      interestRate: 5,
       maxYears: 30,
       maxFinancingPercentage: 0.8
     },
     "Segunda Vivienda": {
       loanType: "SEGUNDA_VIVIENDA",
-      interestRate: Math.floor(100 * (Math.random() * (6 - 4) + 4)) / 100,
+      interestRate: 6,
       maxYears: 20,
       maxFinancingPercentage: 0.7
     },
     "Propiedades Comerciales": {
       loanType: "PROPIEDADES_COMERCIALES",
-      interestRate: Math.floor(100 * (Math.random() * (7 - 5) + 5)) / 100,
+      interestRate: 7,
       maxYears: 25,
       maxFinancingPercentage: 0.6
     },
     "Remodelación": {
       loanType: "REMODELACION",
-      interestRate: Math.floor(100 * (Math.random() * (6 - 4.5) + 4.5)) / 100,
+      interestRate: 6,
       maxYears: 15,
       maxFinancingPercentage: 0.5
     }
@@ -220,7 +220,7 @@ const CreditApplication = () => {
             <p><strong>Monto Solicitado:</strong> ${form.requestedAmount}</p>
             <p><strong>Valor de la Propiedad:</strong> ${form.propertyValue}</p>
             <p><strong>Plazo:</strong> {form.yearsLimit} años</p>
-            <p><strong>Tasa de interés:</strong> {}</p>
+            <p><strong>Tasa de interés:</strong> {loanTypesMap[form.loanType].interestRate}%</p>
             <p><strong>Cuota Mensual:</strong> ${monthlyFee.toFixed(0)}</p>
             <p><strong>Comisión de Administración:</strong> ${administrationCommission.toFixed(0)}</p>
 

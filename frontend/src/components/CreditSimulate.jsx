@@ -41,6 +41,11 @@ const CreditSimulate = () => {
       return;
     }
 
+    if(form.interestRate > 10){
+      setError('La tasa de interés colocada es demasiado alta');
+      return;
+    }
+
     if (form.yearsLimit < 1) {
       setError('El plazo debe ser de al menos 1 año.');
       return;
@@ -48,6 +53,21 @@ const CreditSimulate = () => {
 
     if (form.yearsLimit > 30) {
       setError('El plazo no puede superar los 30 años.');
+      return;
+    }
+
+    if(form.requestedAmount < 0){
+      setError('El monto solicitado debe ser un valor positivo.');
+      return;
+    }
+
+    if(form.requestedAmount == 0){
+      setError('El monto solicitado no puede ser 0.');
+      return;
+    }
+
+    if(form.requestedAmount > 0 && form.requestedAmount < 100000){
+      setError('El monto solicitado es demasiado bajo.');
       return;
     }
 
