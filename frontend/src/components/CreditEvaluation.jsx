@@ -183,7 +183,7 @@ const CreditEvaluation = () => {
           ))}
         </select>
       </div>
-      <button onClick={goBack} className="go-back-button">Volver</button>
+      <button onClick={goBack} className="logout-button">Volver</button>
 
       <div className="applications-list">
         {filteredApplications.length === 0 ? (

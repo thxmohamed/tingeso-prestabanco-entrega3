@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import checkrulesService from '../services/checkrules.service';
-import documentService from '../services/document.service'; 
+import documentService from '../services/document.service';
 
 const FileUpload = ({ creditID, loanType }) => {
   const [files, setFiles] = useState({
@@ -27,6 +27,17 @@ const FileUpload = ({ creditID, loanType }) => {
     "Propiedades Comerciales": ['businessFinancialStatement', 'incomeProof', 'appraisalCertificate', 'businessPlan'],
     "Remodelación": ['incomeProof', 'renovationBudget', 'appraisalCertificate']
   };
+  
+  // Mapeo de campos a nombres legibles por el usuario
+  const documentLabels = {
+    incomeProof: "Comprobante de Ingresos",
+    appraisalCertificate: "Certificado de Avalúo",
+    creditHistory: "Historial Crediticio",
+    firstHouseDeed: "Escritura de la Primera Vivienda",
+    businessFinancialStatement: "Estado Financiero del Negocio",
+    businessPlan: "Plan de Negocios",
+    renovationBudget: "Presupuesto de la Remodelación"
+  };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
@@ -36,12 +47,19 @@ const FileUpload = ({ creditID, loanType }) => {
     }));
   };
 
+  const handleFileDelete = (field) => {
+    setFiles(prevFiles => ({
+      ...prevFiles,
+      [field]: null
+    }));
+  };
+
   const validateFiles = () => {
     const requiredFields = requiredDocuments[loanType];
     
     for (let field of requiredFields) {
       if (!files[field]) {
-        return `Debes subir el archivo: ${field}`;
+        return `Debes subir el archivo: ${documentLabels[field]}`;
       }
     }
     return '';
@@ -62,17 +80,19 @@ const FileUpload = ({ creditID, loanType }) => {
     try {
       // Subir los archivos uno por uno
       for (const field of requiredFields) {
-        const formData = new FormData();
-        formData.append('file', files[field]);
-        formData.append('creditID', creditID);
-        
-        // Llamar al servicio para guardar el archivo
-        await documentService.save(formData);
+        if (files[field]) { // Asegurarse de que solo subimos los archivos que están presentes
+          const formData = new FormData();
+          formData.append('file', files[field]);
+          formData.append('creditID', creditID);
+          
+          // Llamar al servicio para guardar el archivo
+          await documentService.save(formData);
+        }
       }
 
       const clientID = JSON.parse(localStorage.getItem('user')).id;
 
-      // creacion de la evaluacion
+      // Creación de la evaluación
       const checkRulesData = {
         clientID: clientID,
         creditID: creditID,
@@ -110,50 +130,85 @@ const FileUpload = ({ creditID, loanType }) => {
 
         {requiredDocuments[loanType].includes('incomeProof') && (
           <div className="form-group">
-            <label>Comprobante de Ingresos (PDF)</label>
+            <label>{documentLabels.incomeProof} (PDF)</label>
             <input type="file" name="incomeProof" accept="application/pdf" onChange={handleFileChange} />
+            {files.incomeProof && (
+                <button type="button" onClick={() => handleFileDelete('incomeProof')} title="Eliminar archivo" className="delete-button">
+                  &#10006;
+                </button>
+            )}
           </div>
         )}
 
         {requiredDocuments[loanType].includes('appraisalCertificate') && (
           <div className="form-group">
-            <label>Certificado de Avalúo (PDF)</label>
+            <label>{documentLabels.appraisalCertificate} (PDF)</label>
             <input type="file" name="appraisalCertificate" accept="application/pdf" onChange={handleFileChange} />
+            {files.appraisalCertificate && (
+                <button type="button" onClick={() => handleFileDelete('appraisalCertificate')} title="Eliminar archivo" className="delete-button">
+                  &#10006;
+                </button>
+            )}
           </div>
         )}
 
         {requiredDocuments[loanType].includes('creditHistory') && (
           <div className="form-group">
-            <label>Historial Crediticio (PDF)</label>
+            <label>{documentLabels.creditHistory} (PDF)</label>
             <input type="file" name="creditHistory" accept="application/pdf" onChange={handleFileChange} />
+            {files.creditHistory && (
+                <button type="button" onClick={() => handleFileDelete('creditHistory')} title="Eliminar archivo" className="delete-button">
+                  &#10006;
+                </button>
+            )}
           </div>
         )}
 
         {requiredDocuments[loanType].includes('firstHouseDeed') && (
           <div className="form-group">
-            <label>Escritura de la Primera Vivienda (PDF)</label>
+            <label>{documentLabels.firstHouseDeed} (PDF)</label>
             <input type="file" name="firstHouseDeed" accept="application/pdf" onChange={handleFileChange} />
+            {files.firstHouseDeed && (
+                <button type="button" onClick={() => handleFileDelete('firstHouseDeed')} title="Eliminar archivo" className="delete-button">
+                  &#10006;
+                </button>
+            )}
           </div>
         )}
 
         {requiredDocuments[loanType].includes('businessFinancialStatement') && (
           <div className="form-group">
-            <label>Estado Financiero del Negocio (PDF)</label>
+            <label>{documentLabels.businessFinancialStatement} (PDF)</label>
             <input type="file" name="businessFinancialStatement" accept="application/pdf" onChange={handleFileChange} />
+            {files.businessFinancialStatement && (
+                <button type="button" onClick={() => handleFileDelete('businessFinancialStatement')} title="Eliminar archivo" className="delete-button">
+                  &#10006;
+                </button>
+            )}
           </div>
         )}
 
         {requiredDocuments[loanType].includes('businessPlan') && (
           <div className="form-group">
-            <label>Plan de Negocios (PDF)</label>
+            <label>{documentLabels.businessPlan} (PDF)</label>
             <input type="file" name="businessPlan" accept="application/pdf" onChange={handleFileChange} />
+            {files.businessPlan && (
+                <button type="button" onClick={() => handleFileDelete('businessPlan')} title="Eliminar archivo" className="delete-button">
+                  &#10006;
+                </button>
+            )}
           </div>
         )}
 
         {requiredDocuments[loanType].includes('renovationBudget') && (
           <div className="form-group">
-            <label>Presupuesto de la Remodelación (PDF)</label>
+            <label>{documentLabels.renovationBudget} (PDF)</label>
             <input type="file" name="renovationBudget" accept="application/pdf" onChange={handleFileChange} />
+            {files.renovationBudget && (
+                <button type="button" onClick={() => handleFileDelete('renovationBudget')} title="Eliminar archivo" className="delete-button">
+                  &#10006;
+                </button>
+            )}
           </div>
         )}
 

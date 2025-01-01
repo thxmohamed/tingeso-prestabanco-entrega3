@@ -142,7 +142,7 @@ const ApplicationHistory = () => {
               ))}
             </ul>
 
-            <div className="pagination-controls">
+            <div className="pagination-control">
               <button onClick={prevPage} disabled={currentPage === 1}>Anterior</button>
               <span>Página {currentPage} de {Math.ceil(applications.length / applicationsPerPage)}</span>
               <button onClick={nextPage} disabled={currentPage === Math.ceil(applications.length / applicationsPerPage)}>Siguiente</button>

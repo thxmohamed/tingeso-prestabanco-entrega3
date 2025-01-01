@@ -2,6 +2,8 @@ HU1:
 
 Feature: Simulación de Crédito Exitosa
 
+
+	(AUTOMATIZADA)
 Scenario: El usuario simula un crédito con datos válidos
   Given el usuario está en la pantalla "Simula tu Crédito"
   When ingresa una tasa de interés anual de "5", años de plazo de "5" y un monto solicitado de "10000"
@@ -13,11 +15,12 @@ Scenario: El usuario simula un crédito con datos válidos
 
 Feature: Validación de campos
 
+	(AUTOMATIZADA)
 Scenario: El usuario intenta simular un crédito sin completar todos los campos
   Given el usuario está en la pantalla "Simula tu Crédito"
   When deja el campo "Monto Solicitado" vacío
   And presiona el botón "Simular Crédito"
-  Then el sistema muestra un mensaje de error "Por favor, completa todos los campos requeridos"
+  Then el sistema muestra un mensaje de "Rellene este campo"
 
 
 Feature: Validación de datos
@@ -66,18 +69,21 @@ Feature: Solicitud de Crédito (HU3)
     Then el sistema calcula y muestra la cuota mensual
     And muestra la comisión administrativa correspondiente
 
+	(AUTOMATIZADA)
   Scenario: Validar restricción de monto financiable según el valor de la propiedad
     Given el usuario selecciona "Segunda Vivienda" como tipo de préstamo
-    And ingresa "150000" como monto solicitado
-    And ingresa "100000" como valor de la propiedad
+    And ingresa "1500000" como monto solicitado
+    And ingresa "1000000" como valor de la propiedad
     And ingresa "15" como plazo en años
     When presiona el botón "Adjuntar Archivos"
     Then el sistema muestra el mensaje "El monto máximo financiable para Segunda Vivienda es $70000.00"
 
+
+	(AUTOMATIZADA)
   Scenario: Validar restricción de plazo máximo según el tipo de préstamo
     Given el usuario selecciona "Propiedades Comerciales" como tipo de préstamo
-    And ingresa "100000" como monto solicitado
-    And ingresa "150000" como valor de la propiedad
+    And ingresa "1000000" como monto solicitado
+    And ingresa "1500000" como valor de la propiedad
     And ingresa "30" como plazo en años
     When presiona el botón "Adjuntar Archivos"
     Then el sistema muestra el mensaje "El plazo máximo para Propiedades Comerciales es de 25 años."
@@ -110,6 +116,7 @@ HU4
 
 Feature: Evaluación de una Solicitud de Crédito
 
+	(AUTOMATIZADA)
   Scenario: Visualizar detalles de una solicitud de crédito
     Given que el usuario tiene acceso al sistema de evaluación de créditos
     And existen solicitudes de crédito en el sistema
@@ -118,6 +125,7 @@ Feature: Evaluación de una Solicitud de Crédito
     And se deben listar los documentos asociados a la solicitud
     And debe ser posible descargar cada documento.
 
+	(AUTOMATIZADA)
   Scenario: Filtrar solicitudes de crédito por estado
     Given que el usuario está en la página de evaluación de solicitudes
     And existen múltiples solicitudes con diferentes estados

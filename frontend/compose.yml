@@ -40,7 +40,7 @@ services:
         condition: on-failure
     environment:
       MYSQL_ROOT_PASSWORD: mohamed123  
-      MYSQL_DATABASE: prueba
+      MYSQL_DATABASE: entrega3
     ports:
       - "3306:3306"
     networks:
@@ -51,7 +51,7 @@ services:
   # Backend services
   backend1:
     container_name: backend-container-1
-    image: thxmohamed/backend-container
+    image: thxmohamed/entrega3-back
     ports:
       - 8091:8090
     environment:
@@ -68,7 +68,7 @@ services:
 
   backend2:
     container_name: backend-container-2
-    image: thxmohamed/backend-container
+    image: thxmohamed/entrega3-back
     ports:
       - 8092:8090
     environment:
@@ -85,7 +85,7 @@ services:
 
   backend3:
     container_name: backend-container-3
-    image: thxmohamed/backend-container
+    image: thxmohamed/entrega3-back
     ports:
       - 8093:8090
     environment:
@@ -103,7 +103,7 @@ services:
   # Frontend services
   frontend1:
     container_name: frontend-container-1
-    image: thxmohamed/frontend-container
+    image: thxmohamed/entrega3-front
     ports:
       - 3001:3000
     networks:
@@ -114,7 +114,7 @@ services:
 
   frontend2:
     container_name: frontend-container-2
-    image: thxmohamed/frontend-container
+    image: thxmohamed/entrega3-front
     ports:
       - 3002:3000
     networks:
@@ -125,7 +125,7 @@ services:
 
   frontend3:
     container_name: frontend-container-3
-    image: thxmohamed/frontend-container
+    image: thxmohamed/entrega3-front
     ports:
       - 3003:3000
     networks:
