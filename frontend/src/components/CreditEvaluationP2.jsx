@@ -7,6 +7,7 @@ import creditService from '../services/credit.service';
 const CreditEvaluationP2 = () => {
   const navigate = useNavigate();
   const { creditID } = useParams();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [evaluationData, setEvaluationData] = useState({
     quoteIncomeRatioCheck: false,
@@ -91,6 +92,7 @@ const CreditEvaluationP2 = () => {
   };
 
   const handleEvaluation = async () => {
+    setIsSubmitting(true);
     try {
       const response = await checkrulesService.getByCreditID(creditID);
       const checkid = response.data?.id;
@@ -182,12 +184,16 @@ const CreditEvaluationP2 = () => {
     } catch (error) {
       console.error("Error en la evaluación de crédito:", error);
       alert('Error al enviar la evaluación');
+    } finally {
+      navigate('/home'); // Esta línea se ejecuta siempre
     }
   };
+  
 
   return (
     <div className="credit-evaluation-container">
       <h2>Evaluación de Crédito</h2>
+      <p>Haz click en la casilla correspondiente si la condición de la regla se cumple</p>
 
       <button className="logout-button" onClick={() => navigate(-1)}>
         Atrás
@@ -218,6 +224,7 @@ const CreditEvaluationP2 = () => {
 
         {/* Nuevas verificaciones con botón Calcular */}
         <div className="additional-verifications">
+          <p>Pulsa en el botón de calcular, si este cambia a "correcto", marca la casilla</p>
           {[
             {
               label: "Relación Cuota/Ingreso",
@@ -261,7 +268,9 @@ const CreditEvaluationP2 = () => {
           ))}
         </div>
 
-        <button onClick={handleEvaluation} className="button">Enviar Evaluación</button>
+        <button onClick={handleEvaluation} className="button" disabled={isSubmitting}>
+          {isSubmitting ? 'Enviando...' : 'Enviar Evaluación'}
+        </button>
       </div>
     </div>
   );

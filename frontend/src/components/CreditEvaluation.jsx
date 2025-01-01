@@ -4,15 +4,15 @@ import documentService from '../services/document.service';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
-// Componente para mostrar los detalles de una solicitud seleccionada
 const ApplicationDetails = ({ credit, statusOptions, onStatusChange }) => {
   const [selectedStatus, setSelectedStatus] = useState(credit?.status || '');
-  const [documents, setDocuments] = useState([]);  // Estado para los documentos asociados
+  const [documents, setDocuments] = useState([]);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false); // Estado de carga para el botón "Cambiar"
+  const [loadingDownloads, setLoadingDownloads] = useState({}); // Estado de carga para los botones de descarga
   const navigate = useNavigate();
 
   useEffect(() => {
     if (credit) {
-      // Recuperar documentos asociados al creditID
       documentService.getByCreditID(credit.id)
         .then(response => {
           setDocuments(response.data);
@@ -21,24 +21,32 @@ const ApplicationDetails = ({ credit, statusOptions, onStatusChange }) => {
           console.error('Error al obtener los documentos:', error);
         });
     }
-  }, [credit]);  // Volver a ejecutar cuando se cambie la solicitud seleccionada
+  }, [credit]);
 
   if (!credit) return <p>Selecciona una solicitud para ver los detalles</p>;
 
   const handleStatusSelect = (event) => {
-    const newStatus = event.target.value;
-    setSelectedStatus(newStatus);
+    setSelectedStatus(event.target.value);
   };
 
   const handleUpdateClick = () => {
-    onStatusChange(credit.id, selectedStatus);
+    setIsUpdatingStatus(true);
+    onStatusChange(credit.id, selectedStatus)
+      .then(() => {
+        alert("Estado actualizado correctamente");
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el estado:", error);
+        alert("Error al actualizar el estado");
+      })
+      .finally(() => setIsUpdatingStatus(false));
   };
 
-  // Función para descargar el archivo binario
   const handleDownload = (docID, filename) => {
+    setLoadingDownloads(prev => ({ ...prev, [docID]: true }));
     documentService.downloadFileByID(docID)
       .then(response => {
-        const blob = new Blob([response.data], { type: 'application/pdf' }); // Ajusta el tipo según el archivo real
+        const blob = new Blob([response.data], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
@@ -49,6 +57,9 @@ const ApplicationDetails = ({ credit, statusOptions, onStatusChange }) => {
       })
       .catch(error => {
         console.error('Error al descargar el archivo:', error);
+      })
+      .finally(() => {
+        setLoadingDownloads(prev => ({ ...prev, [docID]: false }));
       });
   };
 
@@ -62,21 +73,31 @@ const ApplicationDetails = ({ credit, statusOptions, onStatusChange }) => {
 
       <div className="status-update">
         <label htmlFor="status">Cambiar Estado:</label>
-        <select id="status" value={selectedStatus} onChange={handleStatusSelect}>
+        <p>Selecciona "Evaluar solicitud" para pasar a la pantalla de evaluación</p>
+        <select id="status" value={selectedStatus} onChange={handleStatusSelect} disabled={isUpdatingStatus}>
           {statusOptions.map((statusOption, index) => (
             <option key={index} value={statusOption.value}>{statusOption.label}</option>
           ))}
         </select>
-        <button onClick={handleUpdateClick}>Cambiar</button>
+        <button onClick={handleUpdateClick} disabled={isUpdatingStatus}>
+          {isUpdatingStatus ? 'Cambiando...' : 'Cambiar'}
+        </button>
       </div>
 
       <div className="documents-section">
         <h4>Documentos Asociados</h4>
+        <p>Haz click para descargar</p>
         {documents.length > 0 ? (
           <ul>
             {documents.map((doc) => (
               <li key={doc.id}>
-                <button className='button' onClick={() => handleDownload(doc.id, doc.filename)}>{doc.filename}</button>
+                <button
+                  className="button"
+                  onClick={() => handleDownload(doc.id, doc.filename)}
+                  disabled={loadingDownloads[doc.id]}
+                >
+                  {loadingDownloads[doc.id] ? 'Cargando...' : doc.filename}
+                </button>
               </li>
             ))}
           </ul>
@@ -93,11 +114,8 @@ const CreditEvaluation = () => {
   const [filteredApplications, setFilteredApplications] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [error, setError] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState(''); // Estado seleccionado para el filtro
+  const [selectedStatus, setSelectedStatus] = useState('');
   const navigate = useNavigate();
-  const goBack = () => {
-    navigate('/home');
-}
 
   const statusOptions = [
     { label: 'En revisión inicial', value: 'E1_EN_REVISION_INICIAL' },
@@ -109,7 +127,6 @@ const CreditEvaluation = () => {
     { label: 'Rechazada', value: 'E7_RECHAZADA' },
     { label: 'Cancelada por cliente', value: 'E8_CANCELADA_POR_CLIENTE' },
     { label: 'En desembolso', value: 'E9_EN_DESEMBOLSO' }
-
   ];
 
   useEffect(() => {
@@ -136,25 +153,16 @@ const CreditEvaluation = () => {
       return;
     }
 
-    creditService.updateStatus(id, statusValue)
+    return creditService.updateStatus(id, statusValue)
       .then(() => {
         setApplications(applications.map(app => app.id === id ? { ...app, status: statusValue } : app));
         setFilteredApplications(filteredApplications.map(app => app.id === id ? { ...app, status: statusValue } : app));
-        alert("Estado actualizado correctamente");
 
-        // Redirigir a la evaluación si el estado cambia a "En evaluación"
-        console.log(statusValue);
-        console.log(id);
         if (statusValue === 'E3_EN_EVALUACION') {
           navigate(`/evaluation/${id}`);
         }
-      })
-      .catch(error => {
-        console.error("Error al actualizar el estado:", error);
-        alert("Error al actualizar el estado");
       });
-};
-
+  };
 
   const handleFilterStatusChange = (event) => {
     const selected = event.target.value;
@@ -170,7 +178,7 @@ const CreditEvaluation = () => {
   return (
     <div className="application-evaluation-container">
       <h1>Evaluación de Solicitudes</h1>
-      
+      <button className="logout-button" onClick={() => navigate(-1)}>Atrás</button>
 
       {error && <p className="error">{error}</p>}
 
@@ -183,7 +191,6 @@ const CreditEvaluation = () => {
           ))}
         </select>
       </div>
-      <button onClick={goBack} className="logout-button">Volver</button>
 
       <div className="applications-list">
         {filteredApplications.length === 0 ? (
