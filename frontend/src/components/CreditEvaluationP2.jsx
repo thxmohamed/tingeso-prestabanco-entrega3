@@ -8,6 +8,7 @@ const CreditEvaluationP2 = () => {
   const navigate = useNavigate();
   const { creditID } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
 
   const [evaluationData, setEvaluationData] = useState({
     quoteIncomeRatioCheck: false,
@@ -24,9 +25,9 @@ const CreditEvaluationP2 = () => {
   });
 
   const [calculatedChecks, setCalculatedChecks] = useState({
-    installmentIncomeRatio: false,
-    currentDebt: false,
-    applicationAge: false,
+    installmentIncomeRatio: null,  // null for "no calculated", true/false for results
+    currentDebt: null,
+    applicationAge: null,
   });
 
   const calculateCurrentDebt = async (clientID) => {
@@ -44,12 +45,13 @@ const CreditEvaluationP2 = () => {
       
       return totalDebt;
     } catch (error) {
-      console.error("Error al calcular currentDebt:", error);
+      console.error("Error al calcular la deuda actual:", error);
       return 0;
     }
   };
 
   const calculateQuotaIncome = async () => {
+    setIsCalculating(true);
     try {
       const result = await checkrulesService.calculateQuotaIncome(creditID);
       if (result.data) {
@@ -57,10 +59,13 @@ const CreditEvaluationP2 = () => {
       }
     } catch (error) {
       console.error("Error al calcular relación cuota/ingreso:", error);
+    }finally{
+      setIsCalculating(false);
     }
   };
 
   const calculateDebtIncome = async () => {
+    setIsCalculating(true);
     try {
       const response = await checkrulesService.getById(creditID);
       const debt = await calculateCurrentDebt(response.data.clientID);
@@ -70,10 +75,13 @@ const CreditEvaluationP2 = () => {
       }
     } catch (error) {
       console.error("Error al calcular deuda actual:", error);
+    } finally {
+      setIsCalculating(false);
     }
   };
 
   const calculateApplicationAge = async () => {
+    setIsCalculating(true);
     try {
       const result = await checkrulesService.calculateApplicationAge(creditID);
       if (result.data) {
@@ -81,6 +89,8 @@ const CreditEvaluationP2 = () => {
       }
     } catch (error) {
       console.error("Error al calcular edad de postulación:", error);
+    } finally{
+      setIsCalculating(false);
     }
   };
 
@@ -222,7 +232,6 @@ const CreditEvaluationP2 = () => {
           </div>
         ))}
 
-        {/* Nuevas verificaciones con botón Calcular */}
         <div className="additional-verifications">
           <p>Pulsa en el botón de calcular, si este cambia a "correcto", marca la casilla</p>
           {[
@@ -249,11 +258,25 @@ const CreditEvaluationP2 = () => {
               <p>{label}</p>
               <div className="verification-controls">
                 <button
-                  className={calculatedChecks[calculatedKey] ? "btn-calculate-success" : "btn-calculate"}
+                  className={
+                    isCalculating
+                      ? "btn-calculate-processing"
+                      : calculatedChecks[calculatedKey] === true
+                      ? "btn-calculate-success"
+                      : calculatedChecks[calculatedKey] === false
+                      ? "btn-calculate-fail"
+                      : "btn-calculate"
+                  }
                   onClick={onClick}
-                  disabled={calculatedChecks[calculatedKey]}
+                  disabled={calculatedChecks[calculatedKey] !== null || isCalculating}
                 >
-                  {calculatedChecks[calculatedKey] ? "Correcto" : "Calcular"}
+                  {isCalculating
+                    ? "Calculando..."
+                    : calculatedChecks[calculatedKey] === true
+                    ? "Correcto"
+                    : calculatedChecks[calculatedKey] === false
+                    ? "Incorrecto"
+                    : "Calcular"}
                 </button>
                 <label className="checkbox-container">
                   <input

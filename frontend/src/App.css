@@ -776,3 +776,26 @@ button:hover {
   margin-left: auto;
 }
 
+.btn-calculate-fail {
+  background-color: #ff0101;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-calculate-fail:hover {
+  background-color: #ff4f4f;
+}
+
+.btn-calculate-processing {
+  background-color: #00189f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
