@@ -70,7 +70,7 @@ function Register() {
   // Validar salario (números y máximo 15 millones)
   const validateSalario = (salario) => {
     const salarioNumber = Number(salario);
-    return salarioNumber > 350000 && salarioNumber <= 15000000;
+    return salarioNumber >= 350000 && salarioNumber <= 15000000;
   };
 
   // Manejar cambios en los campos
