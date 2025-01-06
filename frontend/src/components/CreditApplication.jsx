@@ -56,8 +56,8 @@ const CreditApplication = () => {
   const validateForm = () => {
     const selectedLoanType = loanTypesMap[form.loanType];
     const maxFinancingAmount = selectedLoanType.maxFinancingPercentage * form.propertyValue;
-    if (form.propertyValue < 1000000) {
-      return 'El valor de la propiedad no puede ser inferior a 1,000,000 CLP.';
+    if (form.propertyValue < 10000000) {
+      return 'El valor de la propiedad no puede ser inferior a 10,000,000 CLP.';
     }
     if (form.yearsLimit > selectedLoanType.maxYears) {
       return `El plazo máximo para ${form.loanType} es de ${selectedLoanType.maxYears} años.`;

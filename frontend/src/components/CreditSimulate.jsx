@@ -42,7 +42,7 @@ const CreditSimulate = () => {
     }
 
     if(form.interestRate > 10){
-      setError('La tasa de interés colocada es demasiado alta');
+      setError('La tasa de interés colocada es demasiado alta. Debe ser menor a un 10% anual.');
       return;
     }
 
@@ -66,8 +66,8 @@ const CreditSimulate = () => {
       return;
     }
 
-    if(form.requestedAmount > 0 && form.requestedAmount < 100000){
-      setError('El monto solicitado es demasiado bajo.');
+    if(form.requestedAmount > 0 && form.requestedAmount < 1000000){
+      setError('El monto solicitado es demasiado bajo. Debe ser al menos 1,000,000 CLP.');
       return;
     }
 
@@ -85,6 +85,7 @@ const CreditSimulate = () => {
   return (
     <div className="credit-simulate-container">
       <h1>Simula tu Crédito</h1>
+      <p>Ingresa los datos solicitados para simular tu crédito.</p>
 
       <form onSubmit={handleSubmit}>
         <div>
