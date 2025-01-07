@@ -59,12 +59,16 @@ const CreditApplication = () => {
     if (form.propertyValue < 10000000) {
       return 'El valor de la propiedad no puede ser inferior a 10,000,000 CLP.';
     }
+    if (form.propertyValue > 1000000000) {
+      return 'El valor de la propiedad es demasiado elevado.';
+    }
     if (form.yearsLimit > selectedLoanType.maxYears) {
       return `El plazo máximo para ${form.loanType} es de ${selectedLoanType.maxYears} años.`;
     }
     if (parseFloat(form.requestedAmount) > maxFinancingAmount) {
       return `El monto máximo financiable para ${form.loanType} es $${maxFinancingAmount.toFixed(2)}, que es el ${selectedLoanType.maxFinancingPercentage * 100}% del valor de la propiedad.`;
     }
+    
     if (parseFloat(form.requestedAmount) < form.propertyValue * 0.1) {
       return 'El monto solicitado debe ser al menos el 10% del valor de la propiedad.';
     }

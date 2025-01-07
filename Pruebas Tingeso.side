@@ -2,7 +2,7 @@
   "id": "33fed18c-f36d-469e-8f04-f1e4de79ad53",
   "version": "2.0",
   "name": "Pruebas Tingeso",
-  "url": "http://localhost:5173/",
+  "url": "http://presta-banco-mohamed.westus2.cloudapp.azure.com:8090/",
   "tests": [{
     "id": "b5add540-e27a-403a-a18d-62dcf446644e",
     "name": "Simulación correcta",
@@ -183,7 +183,7 @@
       "id": "865ffe31-3d8e-491d-b98d-f1e74b0bae55",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:5173/login",
+      "target": "http://presta-banco-mohamed.westus2.cloudapp.azure.com:8090/",
       "targets": [],
       "value": ""
     }, {
@@ -325,7 +325,7 @@
       "id": "97b09790-33f5-48de-971d-2576acd14c7a",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:5173/login",
+      "target": "http://presta-banco-mohamed.westus2.cloudapp.azure.com:8090/",
       "targets": [],
       "value": ""
     }, {
@@ -538,7 +538,7 @@
       "id": "b9df7b15-35a7-4557-8edc-f1725021b76d",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:5173/login",
+      "target": "http://presta-banco-mohamed.westus2.cloudapp.azure.com:8090/",
       "targets": [],
       "value": ""
     }, {
@@ -739,7 +739,7 @@
       "id": "ce36f8bc-9be4-471f-9537-0413f1b5801a",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:5173/login",
+      "target": "http://presta-banco-mohamed.westus2.cloudapp.azure.com:8090/",
       "targets": [],
       "value": ""
     }, {
@@ -852,7 +852,7 @@
       "id": "c4a5593d-8108-4ebc-953d-5a7c2208b24a",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:5173/login",
+      "target": "http://presta-banco-mohamed.westus2.cloudapp.azure.com:8090/",
       "targets": [],
       "value": ""
     }, {
@@ -984,6 +984,6 @@
     "timeout": 300,
     "tests": ["b5add540-e27a-403a-a18d-62dcf446644e"]
   }],
-  "urls": ["http://localhost:5173/"],
+  "urls": ["http://localhost:5173/", "http://presta-banco-mohamed.westus2.cloudapp.azure.com:8090/"],
   "plugins": []
 }

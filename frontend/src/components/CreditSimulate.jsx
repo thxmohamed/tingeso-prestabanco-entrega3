@@ -61,6 +61,11 @@ const CreditSimulate = () => {
       return;
     }
 
+    if(form.requestedAmount > 1000000000){
+      setError('El monto solicitado es demasiado alto.');
+      return;
+    }
+
     if(form.requestedAmount == 0){
       setError('El monto solicitado no puede ser 0.');
       return;
